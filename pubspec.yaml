@@ -1,6 +1,6 @@
 name: month_picker_strip
 description: A library that helps user to pick a month
-version: 0.0.2
+version: 0.0.3
 author: Muhammad Ahmed <mahmed8003@gmail.com>
 homepage: https://github.com/mahmed8003/month_picker_strip
 
@@ -11,7 +11,7 @@ dependencies:
   flutter:
     sdk: flutter
 
-  intl: "^0.15.6"
+  intl: "^0.15.5"
 
 
 
