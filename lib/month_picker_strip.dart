@@ -1,5 +1,6 @@
 library month_picker_strip;
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:intl/intl.dart';
@@ -20,10 +21,10 @@ const TextStyle _normalTextStyle = const TextStyle(
 
 class MonthStrip extends StatefulWidget {
   final String format;
-  final DateTime from;
-  final DateTime to;
-  final DateTime initialMonth;
-  final ValueChanged<DateTime> onMonthChanged;
+  @required final DateTime from;
+  @required final DateTime to;
+  @required final DateTime initialMonth;
+  @required final ValueChanged<DateTime> onMonthChanged;
   final double height;
   final double viewportFraction;
   final TextStyle selectedTextStyle;
