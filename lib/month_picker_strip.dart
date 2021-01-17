@@ -21,24 +21,25 @@ const TextStyle _normalTextStyle = const TextStyle(
 
 class MonthStrip extends StatefulWidget {
   final String format;
-  @required final DateTime from;
-  @required final DateTime to;
-  @required final DateTime initialMonth;
-  @required final ValueChanged<DateTime> onMonthChanged;
+
+  final DateTime from;
+  final DateTime to;
+  final DateTime initialMonth;
+  final ValueChanged<DateTime> onMonthChanged;
   final double height;
   final double viewportFraction;
   final TextStyle selectedTextStyle;
   final TextStyle normalTextStyle;
 
   /// Defaults to matching platform conventions.
-  final ScrollPhysics physics;
+  final ScrollPhysics? physics;
 
   const MonthStrip({
     this.format = 'MMMM yyyy',
-    this.from,
-    this.to,
-    this.initialMonth,
-    this.onMonthChanged,
+    required this.from,
+    required this.to,
+    required this.initialMonth,
+    required this.onMonthChanged,
     this.physics,
     this.height = 48.0,
     this.viewportFraction = 0.3,
@@ -61,22 +62,20 @@ class MonthStrip extends StatefulWidget {
         }
 
         var item = new _MonthItem(new DateTime(i, j), selected: false);
-        if (initialMonth != null) {
-          if (item.time.year == initialMonth.year &&
-              item.time.month == initialMonth.month) {
-            initialPage = months.length;
-            item.selected = true;
-          }
+        if (item.time.year == initialMonth.year && item.time.month == initialMonth.month) {
+          initialPage = months.length;
+          item.selected = true;
         }
         months.add(item);
       }
     }
 
     return new _MonthStripState(
-        viewportFraction: viewportFraction,
-        initialPage: initialPage,
-        dateFormat: new DateFormat(format),
-        months: months);
+      viewportFraction: viewportFraction,
+      initialPage: initialPage,
+      dateFormat: new DateFormat(format),
+      months: months,
+    );
   }
 }
 
@@ -86,10 +85,15 @@ class _MonthStripState extends State<MonthStrip> {
   final PageController controller;
   int _lastReportedPage;
 
-  _MonthStripState(
-      {double viewportFraction, int initialPage, this.dateFormat, this.months})
-      : controller = new PageController(
-            viewportFraction: viewportFraction, initialPage: initialPage),
+  _MonthStripState({
+    required double viewportFraction,
+    required int initialPage,
+    required this.dateFormat,
+    required this.months,
+  })   : controller = new PageController(
+          viewportFraction: viewportFraction,
+          initialPage: initialPage,
+        ),
         _lastReportedPage = initialPage;
 
   @override
@@ -100,11 +104,9 @@ class _MonthStripState extends State<MonthStrip> {
       height: widget.height,
       child: new NotificationListener<ScrollEndNotification>(
         onNotification: (ScrollEndNotification notification) {
-          if (notification.depth == 0 &&
-              widget.onMonthChanged != null &&
-              notification is ScrollEndNotification) {
-            final PageMetrics metrics = notification.metrics;
-            final int currentPage = metrics.page.round();
+          if (notification.depth == 0 && notification is ScrollEndNotification) {
+            final PageMetrics metrics = notification.metrics as PageMetrics;
+            final int currentPage = metrics.page!.round();
             if (currentPage != _lastReportedPage) {
               _lastReportedPage = currentPage;
 
@@ -132,8 +134,8 @@ class _MonthStripState extends State<MonthStrip> {
               slivers: <Widget>[
                 new SliverFillViewport(
                   viewportFraction: controller.viewportFraction,
-                  delegate: new SliverChildBuilderDelegate(_buildContent,
-                      childCount: months.length),
+                  delegate:
+                      new SliverChildBuilderDelegate(_buildContent, childCount: months.length),
                 ),
               ],
             );
@@ -150,9 +152,7 @@ class _MonthStripState extends State<MonthStrip> {
         child: new GestureDetector(
           child: new Text(
             dateFormat.format(item.time),
-            style: item.selected
-                ? widget.selectedTextStyle
-                : widget.normalTextStyle,
+            style: item.selected ? widget.selectedTextStyle : widget.normalTextStyle,
           ),
           onTap: () {
             if (_lastReportedPage != index) {
