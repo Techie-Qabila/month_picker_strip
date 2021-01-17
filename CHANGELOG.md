@@ -1,3 +1,7 @@
+## 0.0.4-nullsafety.0
+
+* Null Safety Migration
+
 ## 0.0.3
 
 * Downgraded intl version to work it with current flutter_localizations package

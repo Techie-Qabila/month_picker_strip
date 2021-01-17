@@ -1,23 +1,26 @@
 name: month_picker_strip
 description: A library that helps user to pick a month
-version: 0.0.3
+version: 0.0.4-nullsafety.0
 author: Muhammad Ahmed <mahmed8003@gmail.com>
 homepage: https://github.com/mahmed8003/month_picker_strip
 
 environment:
-  sdk: ">=2.0.0-dev.28.0 <3.0.0"
+  sdk: ">=2.12.0-179.0.dev <3.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
 
-  intl: "^0.15.5"
+  intl: ^0.17.0-nullsafety.2
 
 
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
+module:
+  androidX: true
 
 # For information on the generic Dart part of this file, see the
 # following page: https://www.dartlang.org/tools/pub/pubspec
